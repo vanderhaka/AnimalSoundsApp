@@ -1,21 +1,21 @@
 import SwiftUI
 
 struct AnimalGridView: View {
-    let animals: [Animal]
+    let categories: [AnimalCategory]
     @Binding var showPopup: Bool
     @Binding var selectedAnimal: Animal?
     @Binding var selectedImageName: String
     @Binding var selectedCategory: AnimalCategory?
     
     var columns: [GridItem] {
-        [GridItem(.adaptive(minimum: 150, maximum: 200), spacing: 30)]
+        [GridItem(.adaptive(minimum: 90, maximum: 200), spacing: 30)]
     }
     
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 30) {
-                    ForEach(animals) { animal in
+                    ForEach(selectedCategory?.animals ?? categories.flatMap { $0.animals }) { animal in
                         AnimalThumbnailView(
                             animal: animal,
                             action: {
@@ -26,13 +26,21 @@ struct AnimalGridView: View {
                         )
                     }
                 }
+                .padding(.top, 50) // Add top padding to set the thumbnails permanently down from the top
                 .padding(EdgeInsets(top: 60, leading: 40, bottom: 40, trailing: 40))
             }
             .background(
-                Image("cloudySky")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .edgesIgnoringSafeArea(.all)
+                Group {
+                    if selectedCategory?.name == "Wild Animals" {
+                        Image("wildAnimalsBackground")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } else {
+                        Image("cloudySky")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    }
+                }
             )
             
             Button(action: {
@@ -41,12 +49,11 @@ struct AnimalGridView: View {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(.white)
-                    .padding()
             }
-            .padding(.top, 10)
+            .padding(EdgeInsets(top: 30, leading: 40, bottom: 0, trailing: 0))
+            
         }
         .navigationBarHidden(true)
-        .padding(.top, 60)
     }
     
     func hasAccessToPremiumContent() -> Bool {
@@ -58,7 +65,7 @@ struct AnimalGridView: View {
 struct AnimalGridView_Previews: PreviewProvider {
     static var previews: some View {
         AnimalGridView(
-            animals: farmAnimals.animals,
+            categories: [farmAnimals, wildAnimals],
             showPopup: .constant(false),
             selectedAnimal: .constant(nil),
             selectedImageName: .constant(""),

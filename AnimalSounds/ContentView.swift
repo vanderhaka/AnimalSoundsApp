@@ -14,7 +14,7 @@ struct ContentView: View {
                 .edgesIgnoringSafeArea(.all)
             
             if let category = selectedCategory {
-                AnimalGridView(animals: category.animals, showPopup: $showPopup, selectedAnimal: $selectedAnimal, selectedImageName: $selectedImageName, selectedCategory: $selectedCategory)
+                AnimalGridView(categories: [category], showPopup: $showPopup, selectedAnimal: $selectedAnimal, selectedImageName: $selectedImageName, selectedCategory: $selectedCategory)
             } else {
                 CategoryListView(selectedCategory: $selectedCategory)
             }
