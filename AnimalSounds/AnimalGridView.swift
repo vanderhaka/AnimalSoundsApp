@@ -22,11 +22,12 @@ struct AnimalGridView: View {
                                 selectedAnimal = animal
                                 selectedImageName = animal.imageSoundMap.keys.randomElement()!
                                 showPopup = true
-                            }
+                            },
+                            isPremium: animal.isPremium
                         )
                     }
                 }
-                .padding(.top, 50) // Add top padding to set the thumbnails permanently down from the top
+                .padding(.top, 50)
                 .padding(EdgeInsets(top: 60, leading: 40, bottom: 40, trailing: 40))
             }
             .background(
@@ -35,12 +36,17 @@ struct AnimalGridView: View {
                         Image("wildAnimalsBackground")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+                    } else if selectedCategory?.name == "Farm Animals" {
+                        Image("farmAnimalsBackground")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
                     } else {
                         Image("cloudySky")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     }
                 }
+                .frame(height: UIScreen.main.bounds.height)
             )
             
             Button(action: {
@@ -51,7 +57,6 @@ struct AnimalGridView: View {
                     .foregroundColor(.white)
             }
             .padding(EdgeInsets(top: 30, leading: 40, bottom: 0, trailing: 0))
-            
         }
         .navigationBarHidden(true)
     }

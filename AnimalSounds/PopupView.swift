@@ -1,4 +1,5 @@
 import SwiftUI
+import StoreKit
 import AVFoundation
 
 struct PopupView: View {
@@ -6,36 +7,54 @@ struct PopupView: View {
     let animal: Animal
     let imageName: String
     let soundName: String
+    @State private var showSubscriptionView = false
     @State private var audioPlayer: AVAudioPlayer?
     private let audioPlayerDelegate = AudioPlayerDelegate()
 
+    
     var body: some View {
         ZStack {
+            Color.black.opacity(0.4)
+                .edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    showPopup = false
+                }
+            
             VStack {
-                Text(animal.name)
-                    .font(.largeTitle)
-                    .foregroundColor(.black)
                 Image(imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .cornerRadius(20)
-                    .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.5)
-                    .padding()
+                    .frame(height: 200)
+                
+                Button(action: {
+                    if animal.isPremium {
+                        showSubscriptionView.toggle()
+                    } else {
+                        playSound(sound: soundName)
+                    }
+                }) {
+                    Text(animal.isPremium ? "Unlock Premium Sound" : "Play Sound")
+                        .font(.title)
+                        .bold()
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(.bottom)
             }
-            .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 1)
+            .frame(width: 300, height: 300)
+            .background(Color.white)
             .cornerRadius(20)
-            .padding()
-            .background(Color.white.opacity(0.8))
-            .onAppear {
-                playSound(sound: soundName)
+            .shadow(radius: 20)
+            
+            if showSubscriptionView {
+                SubscriptionView(isPresented: $showSubscriptionView)
+
             }
-        }
-        .background(Color.clear.opacity(showPopup ? 1 : 0).ignoresSafeArea()) // Add this line to close the popup when tapping outside
-        .onTapGesture {
-            showPopup.toggle()
         }
     }
-
+    
     func playSound(sound: String) {
         var url: URL? = Bundle.main.url(forResource: sound, withExtension: "mp3")
         if url == nil {
@@ -53,6 +72,7 @@ struct PopupView: View {
             audioPlayer?.play()
         } catch let error {
             print("Error: Couldn't play the sound - \(error.localizedDescription)")
+        
         }
     }
 }
