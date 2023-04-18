@@ -7,51 +7,27 @@ struct AnimalGridView: View {
     @Binding var selectedImageName: String
     @Binding var selectedCategory: AnimalCategory?
     
+    var columns: [GridItem] {
+        [GridItem(.adaptive(minimum: 150, maximum: 200), spacing: 30)]
+    }
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScrollView {
-                LazyVGrid(columns: [
-                    GridItem(.flexible(), spacing: 30),
-                    GridItem(.flexible(), spacing: 30),
-                    GridItem(.flexible(), spacing: 30)
-                ], spacing: 30) {
+                LazyVGrid(columns: columns, spacing: 30) {
                     ForEach(animals) { animal in
-                        ZStack {
-                            Button(action: {
-                                if !animal.isPremium || hasAccessToPremiumContent() {
-                                    selectedAnimal = animal
-                                    let imageNames = Array(animal.imageSoundMap.keys)
-                                    let randomIndex = Int.random(in: 0..<imageNames.count)
-                                    selectedImageName = imageNames[randomIndex]
-                                    showPopup.toggle()
-                                }
-                            }) {
-                                Image(animal.thumbnail)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: UIScreen.main.bounds.width * 1 / 2, height: UIScreen.main.bounds.width * 1 / 2)
-                                    .clipped()
-                                    .cornerRadius(10)
-                                    .padding(.horizontal, 4)
-                                    .padding(.vertical, 4)
+                        AnimalThumbnailView(
+                            animal: animal,
+                            action: {
+                                selectedAnimal = animal
+                                selectedImageName = animal.imageSoundMap.keys.randomElement()!
+                                showPopup = true
                             }
-                            .buttonStyle(PlainButtonStyle())
-                            .accessibilityLabel("Select \(animal.name)")
-                            .accessibilityHint("Double-tap to see more information and hear the sound of the \(animal.name).")
-                            .disabled(animal.isPremium && !hasAccessToPremiumContent())
-
-                            if animal.isPremium && !hasAccessToPremiumContent() {
-                                Image(systemName: "lock.fill")
-                                    .resizable()
-                                    .frame(width: 44, height: 44)
-                                    .foregroundColor(.gray)
-                            }
-                        }
+                        )
                     }
                 }
-                .padding(40)
+                .padding(EdgeInsets(top: 60, leading: 40, bottom: 40, trailing: 40))
             }
-            .padding(.top, 50)
             .background(
                 Image("cloudySky")
                     .resizable()
@@ -67,10 +43,10 @@ struct AnimalGridView: View {
                     .foregroundColor(.white)
                     .padding()
             }
-            .padding(.top, 20)
-
+            .padding(.top, 10)
         }
         .navigationBarHidden(true)
+        .padding(.top, 60)
     }
     
     func hasAccessToPremiumContent() -> Bool {
