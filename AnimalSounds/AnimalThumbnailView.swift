@@ -11,7 +11,7 @@ struct AnimalThumbnailView: View {
                 Image(animal.thumbnail) // Use the thumbnailImageName property here
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
+                    .frame(width: 150, height: 150)
                     .cornerRadius(20)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
@@ -22,12 +22,12 @@ struct AnimalThumbnailView: View {
                     Image("premium")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 30, height: 30)
-                        .padding(EdgeInsets(top: -6, leading: 0, bottom: 0, trailing: -5))
+                        .frame(width: 70, height: 70)
+                        .padding(EdgeInsets(top: -12, leading: 0, bottom: 0, trailing: -15))
                 }
             }
             Text(animal.name)
-                .font(.system(size: 14, weight: .bold))
+                .font(.system(size: 18, weight: .bold))
                 .foregroundColor(.white)
         }
         .onTapGesture(perform: action)

@@ -9,10 +9,10 @@ struct CategoryCard: View {
             Text(category.name)
                 .font(.largeTitle)
                 .bold()
-                .foregroundColor(.white)
+                .foregroundColor(.gray)
         }
         .frame(width: 300, height: 200)
-        .background(Color.blue)
+        .background(Color.white)
         .cornerRadius(20)
     }
 }

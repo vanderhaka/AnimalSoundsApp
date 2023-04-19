@@ -8,8 +8,17 @@ struct AnimalGridView: View {
     @Binding var selectedCategory: AnimalCategory?
     
     var columns: [GridItem] {
-        [GridItem(.adaptive(minimum: 90, maximum: 200), spacing: 30)]
+        [GridItem(.adaptive(minimum: 120, maximum: 200), spacing: 30)]
     }
+    
+    func hasAccessToPremiumContent() -> Bool {
+            // Replace this with the appropriate product identifiers
+            let tier1ProductIdentifier = "ASFS2023"
+            let tier2ProductIdentifier = "ASHS2023"
+
+            return UserDefaults.standard.bool(forKey: tier1ProductIdentifier) ||
+                   UserDefaults.standard.bool(forKey: tier2ProductIdentifier)
+        }
     
     var body: some View {
         ZStack(alignment: .topLeading) {

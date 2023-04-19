@@ -37,13 +37,13 @@ let wildAnimals = AnimalCategory(name: "Wild Animals", animals: [
 let birds = AnimalCategory(name: "Birds", animals: [
     
     
-    Animal(uuid: UUID(), name: "Eagle", thumbnail: "eagleThumbnail", imageSoundMap: ["eagle1": "eagleSound1", "eagle2": "eagleSound2"], isPremium: false),
+    Animal(uuid: UUID(), name: "Eagle", thumbnail: "eagleThumbnail", imageSoundMap: ["eagle1": "eagleSound1", "eagle2": "eagleSound2"], isPremium: true),
     
     Animal(uuid: UUID(), name: "Penguin", thumbnail: "penguinThumbnail", imageSoundMap: ["penguin1": "penguinSound1", "penguin2": "penguinSound2"], isPremium: false),
     
     Animal(uuid: UUID(), name: "Toucan", thumbnail: "toucanThumbnail", imageSoundMap: ["toucan1": "toucanSound1", "toucan2": "toucanSound2"], isPremium: false),
     
-    Animal(uuid: UUID(), name: "Kookaburra", thumbnail: "kookaburraThumbnail", imageSoundMap: ["kookaburra1": "kookaburraSound1", "kookaburra2": "kookaburraSound2"], isPremium: false),
+    Animal(uuid: UUID(), name: "Kookaburra", thumbnail: "kookaburraThumbnail", imageSoundMap: ["kookaburra1": "kookaburraSound1", "kookaburra2": "kookaburraSound2"], isPremium: true),
     
     Animal(uuid: UUID(), name: "Chicken", thumbnail: "chickenThumbnail", imageSoundMap: ["chicken1": "chickenSound1", "chicken2": "chickenSound2"], isPremium: true),
     

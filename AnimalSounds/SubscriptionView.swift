@@ -9,13 +9,12 @@ struct SubscriptionView: View {
         VStack {
             ForEach(storeManager.products, id: \.productIdentifier) { product in
                 Button(action: {
-                    // Implement purchasing action
+                    storeManager.buyProduct(product)
                 }) {
                     VStack {
                         Text(product.localizedTitle)
                         Text(product.localizedDescription)
                         Text(product.localizedPrice ?? "")
-
                     }
                 }
             }
@@ -33,9 +32,7 @@ extension SKProduct {
         formatter.locale = self.priceLocale
         return formatter.string(from: self.price)
     }
-}
-
-extension SKProduct {
+    
     func priceString() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
