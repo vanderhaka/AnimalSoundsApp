@@ -27,7 +27,7 @@ struct AnimalThumbnailView: View {
                 }
             }
             Text(animal.name)
-                .font(.system(size: 16, weight: .bold))
+                .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white)
         }
         .onTapGesture(perform: action)

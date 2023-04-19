@@ -15,7 +15,8 @@ struct AnimalGridView: View {
         ZStack(alignment: .topLeading) {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 30) {
-                    ForEach(selectedCategory?.animals ?? categories.flatMap { $0.animals }) { animal in
+                    let sortedAnimals = (selectedCategory?.animals ?? categories.flatMap { $0.animals }).sorted(by: { $0.isPremium && !$1.isPremium })
+                    ForEach(sortedAnimals) { animal in
                         AnimalThumbnailView(
                             animal: animal,
                             action: {
@@ -59,22 +60,5 @@ struct AnimalGridView: View {
             .padding(EdgeInsets(top: 30, leading: 40, bottom: 0, trailing: 0))
         }
         .navigationBarHidden(true)
-    }
-    
-    func hasAccessToPremiumContent() -> Bool {
-        // Add your subscription check logic here.
-        return false
-    }
-}
-
-struct AnimalGridView_Previews: PreviewProvider {
-    static var previews: some View {
-        AnimalGridView(
-            categories: [farmAnimals, wildAnimals],
-            showPopup: .constant(false),
-            selectedAnimal: .constant(nil),
-            selectedImageName: .constant(""),
-            selectedCategory: .constant(nil)
-        )
     }
 }
