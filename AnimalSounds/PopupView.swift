@@ -31,7 +31,7 @@ struct PopupView: View {
                         playSound(sound: soundName)
                     }
                 }) {
-                    Text(animal.isPremium ? "Unlock Premium Sound" : "Play Sound")
+                    Text("Unlock Premium Sound")
                         .font(.title)
                         .bold()
                         .padding()
@@ -39,6 +39,8 @@ struct PopupView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+                .opacity(animal.isPremium ? 1 : 0)
+
                 .padding(.bottom)
             }
             .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 1)
@@ -48,8 +50,11 @@ struct PopupView: View {
             .cornerRadius(20)
             .shadow(radius: 20)
             .onAppear {
-                playSound(sound: soundName)
+                if !animal.isPremium {
+                    playSound(sound: soundName)
+                }
             }
+
             .contentShape(Rectangle())
             .onTapGesture {
                 showPopup = false
