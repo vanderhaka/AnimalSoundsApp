@@ -11,21 +11,19 @@ struct PopupView: View {
     @State private var audioPlayer: AVAudioPlayer?
     private let audioPlayerDelegate = AudioPlayerDelegate()
 
-    
     var body: some View {
         ZStack {
             Color.black.opacity(0.4)
                 .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    showPopup = false
-                }
             
             VStack {
                 Image(imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(height: 200)
-                
+                    .cornerRadius(20)
+                    .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.5)
+                    .padding()
+
                 Button(action: {
                     if animal.isPremium {
                         showSubscriptionView.toggle()
@@ -43,16 +41,25 @@ struct PopupView: View {
                 }
                 .padding(.bottom)
             }
-            .frame(width: 300, height: 300)
-            .background(Color.white)
+            .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 1)
+            .cornerRadius(20)
+            .padding()
+            .background(Color.white.opacity(0.8))
             .cornerRadius(20)
             .shadow(radius: 20)
+            .onAppear {
+                playSound(sound: soundName)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showPopup = false
+            }
             
             if showSubscriptionView {
                 SubscriptionView(isPresented: $showSubscriptionView)
-
             }
         }
+        .background(Color.clear.opacity(showPopup ? 1 : 0).ignoresSafeArea())
     }
     
     func playSound(sound: String) {
@@ -72,7 +79,6 @@ struct PopupView: View {
             audioPlayer?.play()
         } catch let error {
             print("Error: Couldn't play the sound - \(error.localizedDescription)")
-        
         }
     }
 }
