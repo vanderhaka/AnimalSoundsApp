@@ -1,42 +1,46 @@
 import SwiftUI
 import StoreKit
-
+    
 struct SubscriptionView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @State private var isSubscribed = false
+
     @ObservedObject var storeManager = StoreManager()
-    @Binding var isPresented: Bool
 
     var body: some View {
         VStack {
-            ForEach(storeManager.products, id: \.productIdentifier) { product in
+            Text("Choose a Subscription Plan")
+                .font(.title)
+                .bold()
+                .padding(.top)
+
+            ForEach(storeManager.products, id: \.self) { product in
                 Button(action: {
+                    if isSubscribed {
+                        presentationMode.wrappedValue.dismiss()
+                        return
+                    }
+
                     storeManager.buyProduct(product)
                 }) {
                     VStack {
                         Text(product.localizedTitle)
+                            .font(.headline)
                         Text(product.localizedDescription)
-                        Text(product.localizedPrice ?? "")
+                        Text(product.priceString())
                     }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                 }
+                .disabled(isSubscribed)
+                .padding(.bottom)
             }
         }
+        .padding()
         .onAppear {
             storeManager.fetchProducts()
         }
-    }
-}
-
-extension SKProduct {
-    var localizedPrice: String? {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = self.priceLocale
-        return formatter.string(from: self.price)
-    }
-    
-    func priceString() -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.locale = self.priceLocale
-        return formatter.string(from: self.price) ?? ""
     }
 }

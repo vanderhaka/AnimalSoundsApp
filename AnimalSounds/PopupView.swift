@@ -26,12 +26,12 @@ struct PopupView: View {
 
                 Button(action: {
                     if animal.isPremium {
-                        showSubscriptionView.toggle()
+                        showSubscriptionView = true
                     } else {
                         playSound(sound: soundName)
                     }
                 }) {
-                    Text("Unlock Premium Sound")
+                    Text(animal.isPremium ? "Unlock Premium Sound" : "Play Sound")
                         .font(.title)
                         .bold()
                         .padding()
@@ -40,6 +40,8 @@ struct PopupView: View {
                         .cornerRadius(10)
                 }
                 .opacity(animal.isPremium ? 1 : 0)
+
+
 
                 .padding(.bottom)
             }
@@ -60,9 +62,10 @@ struct PopupView: View {
                 showPopup = false
             }
             
-            if showSubscriptionView {
-                SubscriptionView(isPresented: $showSubscriptionView)
+            .sheet(isPresented: $showSubscriptionView) {
+                SubscriptionView()
             }
+
         }
         .background(Color.clear.opacity(showPopup ? 1 : 0).ignoresSafeArea())
     }

@@ -1,7 +1,7 @@
 import Foundation
 import StoreKit
 
-class StoreManager: NSObject, ObservableObject {
+class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver {
     @Published var products: [SKProduct] = []
 
     private let productIdentifiers: Set<String> = [
@@ -28,23 +28,11 @@ class StoreManager: NSObject, ObservableObject {
     func restorePurchases() {
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
-}
-
-extension StoreManager: SKProductsRequestDelegate {
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        DispatchQueue.main.async {
-            self.products = response.products
-        }
-    }
-}
-
-extension StoreManager: SKPaymentTransactionObserver {
+    
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchased, .restored:
-                // Unlock the content here or update the subscription status.
-                // For example, you can use UserDefaults or a more secure storage solution like Keychain.
                 UserDefaults.standard.set(true, forKey: transaction.payment.productIdentifier)
                 queue.finishTransaction(transaction)
             case .failed:
@@ -52,6 +40,14 @@ extension StoreManager: SKPaymentTransactionObserver {
             default:
                 break
             }
+        }
+    }
+}
+
+extension StoreManager: SKProductsRequestDelegate {
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        DispatchQueue.main.async {
+            self.products = response.products
         }
     }
 }
