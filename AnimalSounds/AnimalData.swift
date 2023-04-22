@@ -52,3 +52,12 @@ let birds = AnimalCategory(name: "Birds", animals: [
     
     // add more wild animals here
 ])
+
+let oceanAndRiver = AnimalCategory(name: "Ocean And River", animals: [
+    
+    Animal(uuid: UUID(), name: "Frog", thumbnail: "frogThumbnail", imageSoundMap: ["frog1": "frogSound1", "frog2": "frogSound2"], isPremium: false),
+    Animal(uuid: UUID(), name: "Seal", thumbnail: "sealThumbnail", imageSoundMap: ["seal1": "sealSound1", "seal2": "sealSound2"], isPremium: false),
+    Animal(uuid: UUID(), name: "Dolphin", thumbnail: "dolphinThumbnail", imageSoundMap: ["dolphin1": "dolphinSound1", "dolphin2": "dolphinSound2"], isPremium: false)
+    
+    // add more wild animals here
+])

@@ -21,7 +21,9 @@ struct CategoryCard: View {
 let animalCategories: [AnimalCategory] = [
     AnimalCategory(name: "Farm Animals", animals: farmAnimals.animals),
     AnimalCategory(name: "Wild Animals", animals: wildAnimals.animals),
-    AnimalCategory(name: "Birds", animals: birds.animals)
+    AnimalCategory(name: "Birds", animals: birds.animals),
+    AnimalCategory(name: "Ocean And River", animals: oceanAndRiver.animals)
+
 ]
 
 struct CategoryListView: View {
