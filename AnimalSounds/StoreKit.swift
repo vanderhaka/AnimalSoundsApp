@@ -13,6 +13,8 @@ class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver {
         super.init()
         SKPaymentQueue.default().add(self)
     }
+    
+    
 
     func fetchProducts() {
         let request = SKProductsRequest(productIdentifiers: productIdentifiers)
@@ -44,10 +46,3 @@ class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver {
     }
 }
 
-extension StoreManager: SKProductsRequestDelegate {
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        DispatchQueue.main.async {
-            self.products = response.products
-        }
-    }
-}

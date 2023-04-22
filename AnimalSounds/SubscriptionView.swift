@@ -40,7 +40,7 @@ struct SubscriptionView: View {
         }
         .padding()
         .onAppear {
-            storeManager.fetchProducts()
+                    storeManager.fetchProducts()
         }
     }
 }

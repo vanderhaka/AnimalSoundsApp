@@ -8,3 +8,14 @@ extension SKProduct {
         return formatter.string(from: self.price) ?? ""
     }
 }
+
+extension StoreManager: SKProductsRequestDelegate {
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+        DispatchQueue.main.async {
+            self.products = response.products
+            print("Fetched products: \(self.products)")
+        }
+    }
+
+}
+
