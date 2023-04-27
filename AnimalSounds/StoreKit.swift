@@ -14,7 +14,6 @@ class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver {
         SKPaymentQueue.default().add(self)
     }
     
-    
 
     func fetchProducts() {
         let request = SKProductsRequest(productIdentifiers: productIdentifiers)

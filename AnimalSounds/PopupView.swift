@@ -23,6 +23,8 @@ struct PopupView: View {
                     .cornerRadius(20)
                     .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.5)
                     .padding()
+                
+                
 
                 Button(action: {
                     if animal.isPremium {
