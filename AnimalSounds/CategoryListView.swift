@@ -3,38 +3,35 @@ import SwiftUI
 // Add the CategoryCard view
 struct CategoryCard: View {
     let category: AnimalCategory
-    
+
     var body: some View {
         VStack {
-            Text(category.name)
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(.gray)
+            Image(category.imageName)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 380, height: 250)
         }
-        .frame(width: 300, height: 200)
-        .background(Color.white)
-        .cornerRadius(20)
+        
     }
 }
 
 // Add animalCategories data
 let animalCategories: [AnimalCategory] = [
-    AnimalCategory(name: "Wild Animals", animals: wildAnimals.animals),
-    AnimalCategory(name: "Farm Animals", animals: farmAnimals.animals),
-    AnimalCategory(name: "Birds", animals: birds.animals)
-
+    AnimalCategory(name: "Wild Animals", imageName: "wildtitle", animals: wildAnimals.animals),
+    AnimalCategory(name: "Farm Animals", imageName: "farmtitle", animals: farmAnimals.animals),
+    AnimalCategory(name: "Birds", imageName: "birdstitle", animals: birds.animals)
 ]
 
 struct CategoryListView: View {
     @Binding var selectedCategory: AnimalCategory?
-    
+
     var body: some View {
         ZStack {
             Image("cloudySky")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
-            
+
             VStack(spacing: 30) {
                 ForEach(animalCategories) { category in
                     CategoryCard(category: category)

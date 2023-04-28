@@ -24,6 +24,13 @@ struct PopupView: View {
                     .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.5)
                     .padding()
                 
+                Text(animal.name)
+                    .font(.system(size: 50))
+                    .font(.title)
+                    .bold()
+                    .foregroundColor(.black)
+                    .padding(.bottom)
+
                 
 
                 Button(action: {
