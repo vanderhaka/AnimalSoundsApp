@@ -1,7 +1,7 @@
 import Foundation
 import StoreKit
 
-class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver {
+class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver, SKProductsRequestDelegate {
     @Published var products: [SKProduct] = []
 
     private let productIdentifiers: Set<String> = [
@@ -14,6 +14,11 @@ class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver {
         SKPaymentQueue.default().add(self)
     }
     
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
+            DispatchQueue.main.async {
+                self.products = response.products
+            }
+        }
 
     func fetchProducts() {
         let request = SKProductsRequest(productIdentifiers: productIdentifiers)
@@ -42,6 +47,15 @@ class StoreManager: NSObject, ObservableObject, SKPaymentTransactionObserver {
                 break
             }
         }
+    }
+}
+
+extension SKProduct {
+    func priceString() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = self.priceLocale
+        return formatter.string(from: self.price) ?? "N/A"
     }
 }
 
