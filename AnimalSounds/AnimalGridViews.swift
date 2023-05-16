@@ -12,7 +12,7 @@ struct AnimalGridView: View {
     var columns: [GridItem] {
         let screenWidth = UIScreen.main.bounds.width
         let spacing: CGFloat = 20
-        let minimumWidth: CGFloat = 100
+        let minimumWidth: CGFloat = 120
         let maximumWidth: CGFloat = min(screenWidth / 2.5, 150)
         return [GridItem(.adaptive(minimum: minimumWidth, maximum: maximumWidth), spacing: spacing)]
     }
