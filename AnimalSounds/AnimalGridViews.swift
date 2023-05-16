@@ -10,14 +10,18 @@ struct AnimalGridView: View {
 
     
     var columns: [GridItem] {
-        [GridItem(.adaptive(minimum: 120, maximum: 200), spacing: 30)]
+        let screenWidth = UIScreen.main.bounds.width
+        let spacing: CGFloat = 20
+        let minimumWidth: CGFloat = 100
+        let maximumWidth: CGFloat = min(screenWidth / 2.5, 150)
+        return [GridItem(.adaptive(minimum: minimumWidth, maximum: maximumWidth), spacing: spacing)]
     }
     
     
     var body: some View {
         ZStack(alignment: .topLeading) {
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 30) {
+                LazyVGrid(columns: columns, spacing: 20) {
                     let sortedAnimals = (selectedCategory?.animals ?? categories.flatMap { $0.animals }).sorted(by: { $0.isPremium && !$1.isPremium })
                     ForEach(sortedAnimals) { animal in
                         AnimalThumbnailView(
@@ -36,9 +40,11 @@ struct AnimalGridView: View {
                     }
 
                 }
-                .padding(.top, 50)
-                .padding(EdgeInsets(top: 60, leading: 40, bottom: 40, trailing: 40))
+                .padding(.top, 80)  // start from 200px below the top of the screen
+                .padding(EdgeInsets(top: 20, leading: 40, bottom: 40, trailing: 40))
             }
+
+
             .background(
                 Group {
                     if selectedCategory?.name == "Wild Animals" {
@@ -65,12 +71,47 @@ struct AnimalGridView: View {
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(.white)
             }
-            .padding(EdgeInsets(top: 30, leading: 40, bottom: 0, trailing: 0))
+            .padding(EdgeInsets(top: 50, leading: 40, bottom: 0, trailing: 0))
         }
         .sheet(isPresented: $showSubscriptionView) {
             SubscriptionView()
         }
 
         .navigationBarHidden(true)
+    }
+}
+
+struct AnimalThumbnailView: View {
+    let animal: Animal
+    let action: () -> Void
+    let isPremium: Bool
+
+    var body: some View {
+        VStack {
+            ZStack(alignment: .topTrailing) {
+                Image(animal.thumbnail) // Use the thumbnailImageName property here
+                    .resizable()
+                    .aspectRatio(contentMode: .fit) // use .fit to maintain the aspect ratio
+                    .frame(minWidth: 120) // set a minimum width for the frame
+                    .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.white, lineWidth: 4)
+                    )
+
+                if isPremium {
+                    Image("premium")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 70, height: 70)
+                        .padding(EdgeInsets(top: -12, leading: 0, bottom: 0, trailing: -15))
+                }
+            }
+            Text(animal.name)
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(.white)
+        }
+        .onTapGesture(perform: action)
+        .padding(.top, 15) // Add padding around each thumbnail
     }
 }
