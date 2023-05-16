@@ -41,7 +41,7 @@ struct AnimalGridView: View {
 
                 }
                 .padding(.top, 80)  // start from 200px below the top of the screen
-                .padding(EdgeInsets(top: 20, leading: 40, bottom: 40, trailing: 40))
+                .padding(EdgeInsets(top: 40, leading: 40, bottom: 40, trailing: 40))
             }
 
 
@@ -71,7 +71,7 @@ struct AnimalGridView: View {
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(.white)
             }
-            .padding(EdgeInsets(top: 50, leading: 40, bottom: 0, trailing: 0))
+            .padding(EdgeInsets(top: 80, leading: 40, bottom: 0, trailing: 0))
         }
         .sheet(isPresented: $showSubscriptionView) {
             SubscriptionView()
@@ -92,7 +92,7 @@ struct AnimalThumbnailView: View {
                 Image(animal.thumbnail) // Use the thumbnailImageName property here
                     .resizable()
                     .aspectRatio(contentMode: .fit) // use .fit to maintain the aspect ratio
-                    .frame(minWidth: 120) // set a minimum width for the frame
+                    .frame(minWidth: 100) // set a minimum width for the frame
                     .cornerRadius(20)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
