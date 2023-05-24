@@ -24,25 +24,15 @@ struct CategoryListView: View {
 
     var body: some View {
         ZStack {
-            Image("cloudySky")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .edgesIgnoringSafeArea(.all)
-
-            GeometryReader { reader in
-                
-                let itemHeight = (reader.size.height - 100) / 3
-                VStack(spacing: 0) {
-                    ForEach(animalCategories) { category in
-                        CategoryCard(category: category)
-                            .onTapGesture {
-                                selectedCategory = category
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: itemHeight)
-                    }
+            VStack(spacing: 0) {
+                ForEach(animalCategories) { category in
+                    CategoryCard(category: category)
+                        .onTapGesture {
+                            selectedCategory = category
+                        }
                 }
-                .padding(.vertical, 50)
             }
+            .padding(.top, 50)
         }
     }
 }

@@ -22,8 +22,6 @@ struct AnimalGridView: View {
             
             Image(selectedCategory?.background ?? "")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .edgesIgnoringSafeArea(.all)
             
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
