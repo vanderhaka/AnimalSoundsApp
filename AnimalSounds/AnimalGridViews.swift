@@ -1,20 +1,22 @@
 import SwiftUI
 
 struct AnimalGridView: View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     let categories: [AnimalCategory]
     @Binding var showPopup: Bool
     @Binding var selectedAnimal: Animal?
     @Binding var selectedImageName: String
     @Binding var selectedCategory: AnimalCategory?
     @State private var showSubscriptionView = false
-
     
     private var columns: [GridItem] {
-        let screenWidth = UIScreen.main.bounds.width
-        let spacing: CGFloat = 20
-        let minimumWidth: CGFloat = 120
-        let maximumWidth: CGFloat = min(screenWidth / 2.5, 150)
-        return [GridItem(.adaptive(minimum: minimumWidth, maximum: maximumWidth), spacing: spacing)]
+        if horizontalSizeClass == .compact {
+            // iPhone: 2 columns
+            return [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)]
+        } else {
+            // iPad: 4 columns
+            return [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)]
+        }
     }
     
     var body: some View {
