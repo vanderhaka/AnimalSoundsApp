@@ -9,21 +9,18 @@ struct CategoryCard: View {
             Image(category.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 380, height: 250)
         }
         
     }
 }
 
-// Add animalCategories data
-let animalCategories: [AnimalCategory] = [
-    AnimalCategory(name: "Wild Animals", imageName: "wildtitle", animals: wildAnimals.animals),
-    AnimalCategory(name: "Farm Animals", imageName: "farmtitle", animals: farmAnimals.animals),
-    AnimalCategory(name: "Birds", imageName: "birdstitle", animals: birds.animals)
-]
-
 struct CategoryListView: View {
     @Binding var selectedCategory: AnimalCategory?
+    
+    // Add animalCategories data
+    private let animalCategories: [AnimalCategory] = [
+        wildAnimals, farmAnimals, birds
+    ]
 
     var body: some View {
         ZStack {
@@ -32,15 +29,20 @@ struct CategoryListView: View {
                 .aspectRatio(contentMode: .fill)
                 .edgesIgnoringSafeArea(.all)
 
-            VStack(spacing: 30) {
-                ForEach(animalCategories) { category in
-                    CategoryCard(category: category)
-                        .onTapGesture {
-                            selectedCategory = category
-                        }
+            GeometryReader { reader in
+                
+                let itemHeight = (reader.size.height - 100) / 3
+                VStack(spacing: 0) {
+                    ForEach(animalCategories) { category in
+                        CategoryCard(category: category)
+                            .onTapGesture {
+                                selectedCategory = category
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: itemHeight)
+                    }
                 }
+                .padding(.vertical, 50)
             }
-            .padding(.top, 50)
         }
     }
 }

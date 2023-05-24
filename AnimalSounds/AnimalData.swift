@@ -1,5 +1,5 @@
 import Foundation
-let farmAnimals = AnimalCategory(name: "Farm Animals", imageName: "farmtitle", animals: [
+let farmAnimals = AnimalCategory(name: "Farm Animals", imageName: "farmtitle", background: "farmAnimalsBackground", animals: [
    
     Animal(uuid: UUID(), name: "Cow", thumbnail: "cowThumbnail", imageSoundMap: ["cow1": "cowSound1", "cow2": "cowSound2"], isPremium: false),
     Animal(uuid: UUID(), name: "Dog", thumbnail: "dogThumbnail", imageSoundMap: ["dog1": "dogSound1", "dog2": "dogSound2"], isPremium: false),
@@ -18,7 +18,7 @@ let farmAnimals = AnimalCategory(name: "Farm Animals", imageName: "farmtitle", a
     Animal(uuid: UUID(), name: "Bull", thumbnail: "bullThumbnail", imageSoundMap: ["bull1": "bullSound1", "bull2": "bullSound2"], isPremium: false)
     
 ])
-let wildAnimals = AnimalCategory(name: "Wild Animals", imageName: "wildtitle", animals: [
+let wildAnimals = AnimalCategory(name: "Wild Animals", imageName: "wildtitle", background: "wildAnimalsBackground", animals: [
     
     Animal(uuid: UUID(), name: "Lion", thumbnail: "lionThumbnail", imageSoundMap: ["lion1": "lionSound1", "lion2": "lionSound2"], isPremium: false),
     Animal(uuid: UUID(), name: "Tiger", thumbnail: "tigerThumbnail", imageSoundMap: ["tiger1": "tigerSound1", "tiger2": "tigerSound2"], isPremium: false),
@@ -43,7 +43,8 @@ let wildAnimals = AnimalCategory(name: "Wild Animals", imageName: "wildtitle", a
     
     // add more wild animals here
 ])
-let birds = AnimalCategory(name: "Birds", imageName: "birdstitle", animals: [
+
+let birds = AnimalCategory(name: "Birds", imageName: "birdstitle", background: "cloudySky", animals: [
     
     
     Animal(uuid: UUID(), name: "Eagle", thumbnail: "eagleThumbnail", imageSoundMap: ["eagle1": "eagleSound1", "eagle2": "eagleSound2"], isPremium: false),

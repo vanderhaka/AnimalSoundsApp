@@ -9,7 +9,7 @@ struct AnimalGridView: View {
     @State private var showSubscriptionView = false
 
     
-    var columns: [GridItem] {
+    private var columns: [GridItem] {
         let screenWidth = UIScreen.main.bounds.width
         let spacing: CGFloat = 20
         let minimumWidth: CGFloat = 120
@@ -17,9 +17,14 @@ struct AnimalGridView: View {
         return [GridItem(.adaptive(minimum: minimumWidth, maximum: maximumWidth), spacing: spacing)]
     }
     
-    
     var body: some View {
         ZStack(alignment: .topLeading) {
+            
+            Image(selectedCategory?.background ?? "")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .edgesIgnoringSafeArea(.all)
+            
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
                     let sortedAnimals = (selectedCategory?.animals ?? categories.flatMap { $0.animals }).sorted(by: { $0.isPremium && !$1.isPremium })
@@ -43,26 +48,6 @@ struct AnimalGridView: View {
                 .padding(.top, 80)  // start from 200px below the top of the screen
                 .padding(EdgeInsets(top: 40, leading: 40, bottom: 40, trailing: 40))
             }
-
-
-            .background(
-                Group {
-                    if selectedCategory?.name == "Wild Animals" {
-                        Image("wildAnimalsBackground")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } else if selectedCategory?.name == "Farm Animals" {
-                        Image("farmAnimalsBackground")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } else {
-                        Image("cloudySky")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    }
-                }
-                .frame(height: UIScreen.main.bounds.height)
-            )
             
             Button(action: {
                 selectedCategory = nil
