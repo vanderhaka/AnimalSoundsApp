@@ -1,7 +1,7 @@
 import Foundation
 let farmAnimals = AnimalCategory(name: "Farm Animals", imageName: "farmtitle", background: "farmAnimalsBackground", animals: [
    
-    Animal(uuid: UUID(), name: "Cow", thumbnail: "cowThumbnail", imageSoundMap: ["cow1": "cowSound1", "cow2": "cowSound2"], isPremium: false),
+    Animal(uuid: UUID(), name: "Cow", thumbnail: "cowThumbnail", imageSoundMap: ["cow1": "cowSound1", "cow2": "cowSound2"], isPremium: true),
     Animal(uuid: UUID(), name: "Dog", thumbnail: "dogThumbnail", imageSoundMap: ["dog1": "dogSound1", "dog2": "dogSound2"], isPremium: false),
     Animal(uuid: UUID(), name: "Pig", thumbnail: "pigThumbnail", imageSoundMap: ["pig1": "pigSound1", "pig2": "pigSound2"], isPremium: false),
     Animal(uuid: UUID(), name: "Chicken", thumbnail: "chickenThumbnail", imageSoundMap: ["chicken1": "chickenSound1", "chicken2": "chickenSound2"], isPremium: false),

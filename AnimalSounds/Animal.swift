@@ -28,6 +28,8 @@ struct AnimalCategory: Identifiable {
 
 @main
 struct AnimalSoundsApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
