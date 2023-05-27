@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var selectedAnimal: Animal? = nil
     @State private var selectedImageName = ""
     @State private var selectedCategory: AnimalCategory? = nil
+    @State private var isSubscribed = false
     
     var body: some View {
         ZStack(alignment: .center) {
@@ -15,7 +16,14 @@ struct ContentView: View {
                     .clipped()
                 
                 if let category = selectedCategory {
-                    AnimalGridView(categories: [category], showPopup: $showPopup, selectedAnimal: $selectedAnimal, selectedImageName: $selectedImageName, selectedCategory: $selectedCategory)
+                    AnimalGridView(
+                        categories: [category],
+                        isSubscribed: isSubscribed,
+                        showPopup: $showPopup,
+                        selectedAnimal: $selectedAnimal,
+                        selectedImageName: $selectedImageName,
+                        selectedCategory: $selectedCategory
+                    )
                 } else {
                     HStack {
                         Spacer()
@@ -26,10 +34,16 @@ struct ContentView: View {
                 
                 
                 if showPopup, let animal = selectedAnimal {
-                    PopupView(showPopup: $showPopup, animal: animal, imageName: selectedImageName, soundName: animal.imageSoundMap[selectedImageName]!)
+                    PopupView(showPopup: $showPopup, animal: animal, imageName: selectedImageName, soundName: animal.imageSoundMap[selectedImageName]!, isSubscribed: isSubscribed)
                 }
             }
         }.ignoresSafeArea()
+            .onAppear {
+                isSubscribed = UserDefaults.standard.bool(forKey: "activeSubscriptions")
+            }.onReceive(NotificationCenter.default.publisher(for: Notification.Name("subscriptions"))) { output in
+                let status = output.object as? Bool
+                isSubscribed = status ?? false
+            }
     }
 }
 

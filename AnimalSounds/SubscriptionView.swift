@@ -64,6 +64,7 @@ struct SubscriptionView: View {
     @Environment(\.presentationMode) private var presentationMode
     @StateObject private var viewModel = SubscriptionViewModel()
     
+    
     private var availablePackages: [PackagesUIModel] {
         [PackagesUIModel(id: "ASMS2023",
                          name: "Monthly Plan",

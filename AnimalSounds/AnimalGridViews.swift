@@ -3,6 +3,7 @@ import SwiftUI
 struct AnimalGridView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     let categories: [AnimalCategory]
+    let isSubscribed: Bool
     @Binding var showPopup: Bool
     @Binding var selectedAnimal: Animal?
     @Binding var selectedImageName: String
@@ -32,7 +33,7 @@ struct AnimalGridView: View {
                         AnimalThumbnailView(
                             animal: animal,
                             action: {
-                                if animal.isPremium {
+                                if animal.isPremium && !isSubscribed {
                                     showSubscriptionView = true
                                 } else {
                                     selectedAnimal = animal
@@ -61,7 +62,6 @@ struct AnimalGridView: View {
         .sheet(isPresented: $showSubscriptionView) {
             SubscriptionView()
         }
-
         .navigationBarHidden(true)
     }
 }

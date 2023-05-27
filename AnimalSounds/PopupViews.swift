@@ -7,6 +7,7 @@ struct PopupView: View {
     let animal: Animal
     let imageName: String
     let soundName: String
+    let isSubscribed: Bool
     @State private var showSubscriptionView = false
     @State private var audioPlayer: AVAudioPlayer?
     private let audioPlayerDelegate = AudioPlayerDelegate()
@@ -34,13 +35,13 @@ struct PopupView: View {
                 
 
                 Button(action: {
-                    if animal.isPremium {
+                    if animal.isPremium && !isSubscribed {
                         showSubscriptionView = true
                     } else {
                         playSound(sound: soundName)
                     }
                 }) {
-                    Text(animal.isPremium ? "Unlock Premium Sound" : "Play Sound")
+                    Text((animal.isPremium && !isSubscribed) ? "Unlock Premium Sound" : "Play Sound")
                         .font(.title)
                         .bold()
                         .padding()
@@ -48,10 +49,7 @@ struct PopupView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                .opacity(animal.isPremium ? 1 : 0)
-
-
-
+                .opacity((animal.isPremium && !isSubscribed) ? 1 : 0)
                 .padding(.bottom)
             }
             .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 1)
@@ -61,7 +59,7 @@ struct PopupView: View {
             .cornerRadius(20)
             .shadow(radius: 20)
             .onAppear {
-                if !animal.isPremium {
+                if !animal.isPremium || isSubscribed {
                     playSound(sound: soundName)
                 }
             }
@@ -70,7 +68,6 @@ struct PopupView: View {
             .onTapGesture {
                 showPopup = false
             }
-            
             .sheet(isPresented: $showSubscriptionView) {
                 SubscriptionView()
             }

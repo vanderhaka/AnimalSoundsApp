@@ -14,20 +14,37 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         Purchases.configure(withAPIKey: "appl_DboGMXUcUlrbByxZfsdqVYqDLFS")
         Purchases.shared.delegate = self
+        
         return true
+    }
+    
+    private func checkActiveSubscription() {
+        Task {
+            do {
+                let customerInfo = try await Purchases.shared.customerInfo()
+                updateSubscriptionStatus(customerInfo)
+                let status = !customerInfo.activeSubscriptions.isEmpty
+                UserDefaults.standard.set(status, forKey: "activeSubscriptions")
+                
+                NotificationCenter.default.post(name: Notification.Name("subscriptions"), object: status)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    private func updateSubscriptionStatus(_ customerInfo: CustomerInfo) {
+            
+        
     }
 }
 
 extension AppDelegate: PurchasesDelegate {
-    func purchases(_ purchases: Purchases, completedTransaction transaction: SKPaymentTransaction, withUpdatedInfo purchaserInfo: CustomerInfo) {
-        // Handle completed transactions
+    func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
+        updateSubscriptionStatus(customerInfo)
     }
     
-    func purchases(_ purchases: Purchases, receivedUpdatedPurchaserInfo purchaserInfo: CustomerInfo) {
-        // Handle updated purchaser info
-    }
-    
-    func purchases(_ purchases: Purchases, failedToUpdatePurchaserInfoWithError error: Error) {
-        print("Failed to update purchaser info: \(error.localizedDescription)")
+    func purchases(_ purchases: Purchases, readyForPromotedProduct product: StoreProduct, purchase startPurchase: @escaping StartPurchaseBlock) {
+        
     }
 }
